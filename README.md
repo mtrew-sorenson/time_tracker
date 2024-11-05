@@ -20,7 +20,7 @@ This script is a Node.js-based application for tracking work hours, tasks, and t
 
 - **Task Entry**: Log tasks with associated Jira tickets, descriptions, categories, types, and hours worked.
 - **Time Off Entry**: Record scheduled or unscheduled time off, like PTO or sick days.
-- **Custom Categories**: Define your own categories (e.g., VRI, VRS) via a configuration file.
+- **Custom Categories**: Define your own categories via a configuration file.
 - **Monthly Summary**: View summaries of hours worked, time off taken, and the percentage of working hours used.
 - **Data Editing**: Edit or delete existing entries.
 - **Data Persistence**: Data is saved in a CSV file for each month, allowing you to track work history.
@@ -54,7 +54,7 @@ Before running the script, you need to set up the configuration file.
 
    ```json
    {
-     "categories": ["VRI", "VRS"],
+     "categories": ["CAT1", "CAT2"],
      "JIRA_PROJECT_KEY": "JIRA"
    }
    ```
