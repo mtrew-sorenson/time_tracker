@@ -1,107 +1,183 @@
-# Task and Time Management Script
+# Time Tracking Script
 
-## Overview
+This script is a Node.js-based application for tracking work hours, tasks, and time off during the month. It allows users to enter tasks associated with Jira tickets, categorize tasks, and record both scheduled and unscheduled time off. Data is stored in a CSV file, making it easy to analyze your productivity.
 
-This script is a command-line tool designed for managing and tracking work hours, tasks, and time off during the current month. It maintains all data in a CSV file for easy access and manages:
+## Table of Contents
 
-- Daily work entries for VRI and VRS tasks.
-- Scheduled and unscheduled time off.
-- Calculation of total hours, including the percentage of productive time.
-- Editing, deleting, and adding new entries.
-
-The script follows a simple text-based user interface and utilizes file-based persistence for data storage.
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+  - [Running the Script](#running-the-script)
+  - [Main Menu Options](#main-menu-options)
+- [Data Storage](#data-storage)
+- [Tips](#tips)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
-- **Monthly Setup:** Initialize the month with the number of working days and scheduled PTO days.
-- **Task Management:** Add new tasks, edit existing tasks, or delete any entries.
-- **Time Off Management:** Manage both scheduled and unscheduled time off entries.
-- **View Summary:** Display data including actual working hours, total task hours, and a summary of hours categorized by task type.
+- **Task Entry**: Log tasks with associated Jira tickets, descriptions, categories, types, and hours worked.
+- **Time Off Entry**: Record scheduled or unscheduled time off, like PTO or sick days.
+- **Custom Categories**: Define your own categories (e.g., VRI, VRS) via a configuration file.
+- **Monthly Summary**: View summaries of hours worked, time off taken, and the percentage of working hours used.
+- **Data Editing**: Edit or delete existing entries.
+- **Data Persistence**: Data is saved in a CSV file for each month, allowing you to track work history.
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-- **Node.js**: Ensure that Node.js is installed on your system. This script uses standard Node.js modules such as `fs`, `readline`, and `path`.
+- **Node.js**: Make sure you have Node.js installed on your machine. You can download it from [nodejs.org](https://nodejs.org/).
 
-### Installation
-No specific installation is required. Simply clone or download the script and ensure you have Node.js installed.
+## Installation
+
+1. **Clone the Repository**:
+
+   ```bash
+   git clone https://github.com/yourusername/timetracker.git
+   cd timetracker
+   ```
+
+2. **Install Dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+## Configuration
+
+Before running the script, you need to set up the configuration file.
+
+1. **Create a `config.json` File**:
+
+   In the root directory of the project, create a file named `config.json` with the following structure:
+
+   ```json
+   {
+     "categories": ["VRI", "VRS"],
+     "JIRA_PROJECT_KEY": "JIRA"
+   }
+   ```
+
+   - **categories**: An array of categories to use for classifying tasks. You can customize this list to fit your needs.
+   - **JIRA_PROJECT_KEY**: Your Jira project key to be prefixed to all ticket numbers.
+
+2. **Customize the Configuration**:
+   - **Categories**: Modify the categories array to match the types of work you want to track.
+   - **JIRA_PROJECT_KEY**: Update the Jira project key to match your actual project.
+
+## Usage
 
 ### Running the Script
-1. Open your terminal.
-2. Navigate to the folder where the script is located.
-3. Run the script using the following command:
+
+To start the script, navigate to the project directory and run:
+
+```bash
+node script.js
+```
+
+### Main Menu Options
+
+Upon running the script, you will see a main menu with the following options:
+
+```
+Please select an option:
+1: New Entry Today
+2: New Entry on Date
+3: View Data
+4: Add Time Off
+5: Edit an Entry
+6: Delete an Entry
+7: Quit
+Enter your choice (1-7):
+```
+
+#### Option 1: New Entry Today
+Log a new task entry for the current date.
+
+- **Select Category**: Choose from the categories defined in your `config.json`.
+- **Enter Jira Ticket Number**: Provide the ticket number without the project key.
+- **Task Description**: Optionally add a description of the task.
+- **Hours Worked**: Enter the number of hours worked.
+- **Task Type**: Indicate whether it's "New Development" or "Bug Fixing".
+
+#### Option 2: New Entry on Date
+Log a new task for a specific date. Follow the same steps as Option 1, but you specify the date first.
+
+#### Option 3: View Data
+Display a summary of all logged data for the current month, including:
+
+- **Max Monthly Hours**
+- **Scheduled PTO Hours**
+- **Total Time Off Hours**
+- **Actual Working Hours**
+- **Total Task Hours**
+- **Summary Table** with hours categorized by type.
+
+#### Option 4: Add Time Off
+Record time off for a specific day:
+- **Day of Time Off**: Specify the day.
+- **Description**: Enter a description (e.g., "Sick Time").
+- **Hours**: Provide the number of hours taken off.
+
+#### Option 5: Edit an Entry
+Modify an existing entry by selecting its index number.
+- **Update Fields**: Change any value, such as date, category, hours, etc.
+
+#### Option 6: Delete an Entry
+Remove an entry from the data.
+- **Confirm Deletion**: Type 'yes' to confirm.
+
+#### Option 7: Quit
+Exit the application.
+
+## Data Storage
+
+- **CSV Files**: The script stores data in CSV files named by year and month (`entries_YEAR_MONTH.csv`, e.g., `entries_2023_10.csv`).
+- **Automatic Initialization**: When no CSV file exists for the current month, the script prompts for initial setup (e.g., working days, scheduled PTO days).
+
+## Tips
+
+- **Use Categories Wisely**: Customize categories in the `config.json` file to best suit your work tracking needs.
+- **Backup CSV Files**: Regularly back up your CSV files to prevent data loss.
+- **Git Ignore `.DS_Store`**: If you're on macOS, add `.DS_Store` to your `.gitignore` to avoid cluttering your version control.
+
+  ```gitignore
+  .DS_Store
+  ```
+
+- **Extending Functionality**: You can easily modify the script to include new features, such as additional task types or data exporting options.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork the Repository**.
+2. **Create a Feature Branch**:
+
+   ```bash
+   git checkout -b feature/YourFeature
    ```
-   node your_script_name.js
+
+3. **Commit Your Changes**:
+
+   ```bash
+   git commit -m "Add YourFeature"
    ```
 
-The script will guide you through the setup and data entry process.
+4. **Push to the Branch**:
 
-## Script Workflow
+   ```bash
+   git push origin feature/YourFeature
+   ```
 
-1. **Monthly Setup**
-   - When running for the first time in a given month, you will be prompted to enter the number of working days and scheduled PTO days for the month.
-   - The script calculates the maximum monthly working hours and creates a CSV file named `entries_<year>_<month>.csv` to store data.
-
-2. **Main Menu**
-   - After setup, the main menu presents options to perform different actions:
-     1. **New Entry Today**: Adds a task entry for the current date.
-     2. **New Entry on Date**: Adds a task entry for a specified date.
-     3. **View Data**: Displays all data for the current month including task hours, time off hours, and a summary of task hours by category.
-     4. **Add Time Off**: Adds a time off entry for a specified date.
-     5. **Edit an Entry**: Allows editing of an existing entry.
-     6. **Delete an Entry**: Deletes an existing entry.
-     7. **Quit**: Exits the program.
-
-## CSV File Structure
-The data is stored in a CSV file named according to the year and month (e.g., `entries_2024_11.csv`). The CSV file format:
-
-- **Headers**: The first few lines of the file represent metadata for the month.
-  - `Working Days in Month`: The total number of workdays in the month.
-  - `Scheduled PTO Days`: Number of scheduled days off (e.g., vacation).
-  - `Max Monthly Hours`: Calculated as `(working days - scheduled PTO days) * 8 hours`.
-- **Entries**: The rest of the file contains the work entries in the following format:
-  - `Date`, `VRI/VRS`, `Task Description`, `Task Type`, `Hours`, `Entry Type`
-
-## Functional Breakdown
-
-### Adding Tasks
-- Adds task details like **Date**, **VRI or VRS**, **Jira Ticket Number**, **Description**, **Hours Worked**, and **Task Type** (Bug Fixing or New Development).
-- Stores this information in the CSV file.
-
-### Viewing Data
-- Shows total task hours, scheduled and unscheduled PTO, and the percentage of actual working hours used.
-- Displays a summary of hours worked categorized by **VRI/VRS** and **Task Type**.
-
-### Editing or Deleting Entries
-- **Edit**: Select an entry by index and modify its details.
-- **Delete**: Select an entry to remove it from the CSV file.
-
-## Limitations
-- **No Cloud Storage**: All data is saved locally in CSV files, making it vulnerable if the file is deleted or moved.
-- **Manual Inputs**: Requires manual data entry each time, with limited automation.
-- **Error Handling**: The script provides basic validation for numerical inputs but does not handle invalid dates or erroneous inputs comprehensively.
-
-## Code Modules and Key Components
-- **Node.js Modules**: Uses `fs` for file operations, `readline` for user interaction, and `path` for file path management.
-- **Spinner Animation**: Displays a simple loading spinner during some processes to enhance user experience.
-- **CSV Management**: Handles creating, reading, updating, and deleting CSV data, including headers and task entries.
-
-## Usage Example
-Run the script and choose option **1** to enter a task for today. The script will prompt you through entering the task's details such as **VRI/VRS**, **Jira ticket**, **description**, **hours worked**, and **type** (bug fixing or new development).
-
-## FAQ
-
-### How do I start a new month?
-The script will automatically prompt you for monthly setup information the first time it is run in a new month.
-
-### What happens if I make a mistake while entering hours?
-You can edit any existing entry by selecting option **5** from the main menu.
-
-### Can I use this script to manage multiple months?
-The script creates separate CSV files for each month. You can keep multiple months' data as long as the CSV files are maintained.
+5. **Open a Pull Request**.
 
 ## License
-This script is provided under the MIT License. Feel free to use, modify, and distribute as you see fit.
 
-## Contact
-For any questions or suggestions regarding this script, please create an issue or reach out to me via Github.
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+*This script is intended to help with time tracking and should be used responsibly. Make sure your time reporting complies with your organization's policies.*
+
